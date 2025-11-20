@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar elementos web</title>
+  <style>
+    body {
+      height: 100vh;
+      width: 100vw;
+      background-color: #242424;
+      color: white;
+    }
+
+    .center {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #panel-codigo-secreto {
+      width: 160px;
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #pantalla-codigo {
+      width: 100%;
+      height: 50px;
+      background-color: black;
+      color: yellow;
+      font-size: 30px;
+      text-align: right;
+    }
+
+    .fila-teclas {
+      display: flex;
+    }
+
+    .tecla {
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+      background-color: rgb(215, 215, 215);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    #caja-doble-click {
+      width: 100px;
+      height: 100px;
+      background-color: blue;
+    }
+
+    #caja-doble-click.db-clicked {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <div class="center">
+    <h2 id="titulo">Interacciones</h2>
+
+    <div id="caja-retry-ability"></div>
+
+
+    <div id="panel-codigo-secreto">
+      <div id="pantalla-codigo"></div>
+      <div id="teclado">
+        <div class="fila-teclas">
+          <div class="tecla tecla-num" id="p1">1</div>
+          <div class="tecla tecla-num" id="p2">2</div>
+          <div class="tecla tecla-num" id="p3">3</div>
+        </div>
+        <div class="fila-teclas">
+          <div class="tecla tecla-num" id="p4">4</div>
+          <div class="tecla tecla-num" id="p5">5</div>
+          <div class="tecla tecla-num" id="p6">6</div>
+        </div>
+        <div class="fila-teclas">
+          <div class="tecla tecla-num" id="p7">7</div>
+          <div class="tecla tecla-num" id="p8">8</div>
+          <div class="tecla tecla-num" id="p9">9</div>
+        </div>
+        <div class="fila-teclas">
+          <div class="tecla tecla-clear" id="pclear">CLD</div>
+          <div class="tecla tecla-num" id="p0">0</div>
+          <div class="tecla tecla-del" id="pdel">DEL</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="caja-doble-click">
+      Haz doble click aquí
+    </div>
+
+    <div id="hobbies" data-cy="hobbies">
+      <div><input type="checkbox" id="hobby1" name="hobby" value="cine">Cine</div>
+      <div><input type="checkbox" id="hobby2" name="hobby" value="musica">Música</div>
+      <div><input type="checkbox" id="hobby3" name="hobby" value="series" checked>Series</div>
+      <div><input type="checkbox" id="hobby4" name="hobby" value="tenis" checked>Tenis</div>
+      <div><input type="checkbox" id="hobby5" name="hobby" value="baloncesto">Baloncesto</div>
+    </div>
+
+    <select id="select-coches-electricos">
+      <option value="polestar-2">Polestar 2</option>
+      <option value="nio-et7">Nio eT7</option>
+      <option value="tesla-model-3">Tesla Model 3</option>
+      <option value="xpeng-p7">Xpeng P7</option>
+    </select>
+
+    <select id="select-colores" multiple>
+      <option value="negro">Negro</option>
+      <option value="rojo">Rojo</option>
+      <option value="azul">Azul</option>
+      <option value="amarillo">Amarillo</option>
+      <option value="blanco">Blanco</option>
+    </select>
+
+    <div id="js-popups">
+      <button type="button" id="btn-alert">Mostrar un Alert</button>
+      <button type="button" id="btn-confirm">Quitar el mensaje</button>
+      <p id="mensaje-confirm">Mensaje: <span id="confirm-nombre">The Marathon Continues</span></p>
+      <button type="button" id="btn-prompt">Mostrar tu nombre</button>
+      <p id="mensaje-prompt">Nombre: <span id="prompt-nombre"></span></p>
+    </div>
+
+    <div id="dashboard-screenshot">
+      <div>
+        <h3>Datos de Charly Falco</h3>
+        <p>Email: <span id="email">cfalco@gmail.com</span></p>
+        <p>DNI: <span id="dni">00000000T</span></p>
+        <p>Saldo invertido: <span id="saldo">300000€</span></p>
+      </div>
+      <ul id="inversiones">
+        <li>50% - Hooly, Inc</li>
+        <li>30% - Pied Piper, Inc</li>
+        <li>20% - Aviato, Inc</li>
+      </ul>
+    </div>
+
+    <div class="center">
+      <div id="caja-edicion">
+        <label for="modoEdicion">Edición deshabilitada:</label>
+        <input type="checkbox" id="modoEdicion">
+      </div>
+      <div>
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre">
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const modoEdicionDesactivado = Math.floor(Math.random() * 3) === 0;
+
+    const checkEdicion = document.getElementById('modoEdicion');
+    const inputNombre = document.getElementById('nombre');
+    checkEdicion.checked = modoEdicionDesactivado;
+    inputNombre.disabled = modoEdicionDesactivado;
+
+    checkEdicion.addEventListener('click', () => {
+      const checked = checkEdicion.checked;
+      checkEdicion.checked = checked;
+      inputNombre.disabled = checked;
+    })
+  </script>
+
+  <script>
+    const valorCookie = 'Cookies, cookies...';
+    document.cookie = `miCookie=${valorCookie};`;
+  </script>
+
+  <script src="02-interacciones.js"></script>
+
+  <script>
+    const btn3500 = document.createElement('button');
+    btn3500.id = "btn-lazy-3500";
+    btn3500.innerText = 'Soy un botón perezoso';
+    setTimeout(() => {
+      document.getElementById('caja-retry-ability').appendChild(btn3500);
+    }, 3500);
+
+    const btn5500 = document.createElement('button');
+    btn5500.id = "btn-lazy-5500";
+    btn5500.innerText = 'Soy un botón más perezoso todavía';
+    setTimeout(() => {
+      document.getElementById('caja-retry-ability').appendChild(btn5500);
+    }, 5500);
+  </script>
+
+  <script>
+    document.getElementById('caja-doble-click').addEventListener('dblclick', (event) => {
+    event.target.className = event.target.className.includes('db-clicked') ? '' : 'db-clicked';
+    })
+  </script>
+
+</body>
+</html>
