@@ -48,7 +48,7 @@ describe('Mocks en', () => {
 
     })
 
-    describe('stubs y mocks', () => {
+    describe('stubs, mocks e intercepts', () => {
       beforeEach(() => {
         cy.viewport(1920, 1080)
       })
@@ -89,13 +89,48 @@ describe('Mocks en', () => {
 
     })
 
+
+    describe.only('tick y clock', () => {
+
+      beforeEach(() => {
+        cy.visit('https://resting.onrender.com/')
+      })
+
+      it('al crear un descanso de 5min, la cuenta debería empezar en 05:00', () => {
+        cy.get('.css-qzovtw')
+          .type('Descanso')
+
+        // cy.contains('button', '5')
+        cy.get('button.css-j13a3q')
+          .first()
+          .click()
+
+        cy.contains('button', 'Start')
+          .click()
+
+        cy.clock()
+
+        cy.get('.css-6368fc')
+          .should('have.text', '05 : 00')
+
+        // cy.wait(3000)
+
+        cy.intercept('https://api.unsplash.com/photos/*').as('descargaImagen')
+        cy.wait('@descargaImagen')
+
+        cy.tick(120000)
+
+        cy.get('.css-6368fc')
+        .should('have.text', '03 : 00')
+
+        cy.tick(240000)
+
+        cy.get('.css-6368fc')
+        .should('have.text', '00 : 00')
+      })
+
+    })
+
   })
-
-
-
-
-
-
-
 
 })

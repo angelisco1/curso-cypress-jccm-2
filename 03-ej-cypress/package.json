@@ -13,7 +13,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "cypress": "^15.6.0"
+    "cypress": "^15.6.0",
+    "cypress-image-snapshot": "^4.0.1"
   },
   "dependencies": {
     "cors": "^2.8.5",

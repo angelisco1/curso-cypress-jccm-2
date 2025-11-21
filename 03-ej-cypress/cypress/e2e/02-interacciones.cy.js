@@ -137,7 +137,7 @@ describe('Interacciones con elementos web', () => {
         .should('have.value', 'tesla-model-3')
     })
 
-    it.only('Al arrastrar la caja sobre la caja grande debería cambiar el texto a "Dropped!"', () => {
+    it('Al arrastrar la caja sobre la caja grande debería cambiar el texto a "Dropped!"', () => {
 
       const dataTransferVacio = new DataTransfer()
 
@@ -291,8 +291,49 @@ describe('Interacciones con elementos web', () => {
 
   })
 
-  describe('Screenshots', () => {
+  describe('Tests condicionales', () => {
+    beforeEach(() => {
+      cy.visit('http://127.0.0.1:8080/02-interacciones.html')
+    })
 
+    it('deberíamos de poder escribir el nombre en el input', () => {
+      cy.get('#modoEdicion')
+        .then(($checkbox) => {
+          const estaDeshabilitado = $checkbox.prop('checked')
+          if (estaDeshabilitado) {
+            // $checkbox.trigger('click')
+            cy.wrap($checkbox).uncheck()
+          }
+        })
+
+      cy.get('#nombre')
+        .type('Charly')
+        .should('have.value', 'Charly')
+
+    })
+
+  })
+
+  describe('Screenshots', () => {
+    beforeEach(() => {
+      cy.visit('http://127.0.0.1:8080/02-interacciones.html')
+    })
+
+    it('pantallazo del dashboard', () => {
+      cy.get('#dashboard-screenshot')
+        .screenshot('dashboard')
+    })
+
+    it('pantallazo del dashboard con blackout', () => {
+      cy.get('#dashboard-screenshot')
+        .screenshot('dashboard', {
+          blackout: [
+            '#dni',
+            '#email',
+            '#datosUsuario'
+          ]
+        })
+    })
   })
 
 })

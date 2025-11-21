@@ -1,0 +1,10 @@
+{
+  "usuarioValido": {
+    "email": "cfalco@gmail.com",
+    "password": "cfalco"
+  },
+  "usuarioInvalido": {
+    "email": "cfalco@gmail.com",
+    "password": "nomelase"
+  }
+}
