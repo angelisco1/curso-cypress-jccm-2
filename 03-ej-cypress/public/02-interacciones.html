@@ -63,11 +63,41 @@
     #caja-doble-click.db-clicked {
       background-color: yellow;
     }
+
+    .caja {
+      width: 100px;
+      height: 100px;
+      border: 1px solid white;
+      color: white;
+    }
+
+    .caja#droppable {
+      width: 300px;
+      height: 300px;
+      position: absolute;
+      top: 300px;
+      left: 400px;
+    }
+
+    .illuminate {
+      border: 2px dotted gold;
+    }
+
+    .fullIlluminate {
+      border: 2px solid gold;
+    }
   </style>
 </head>
 <body>
   <div class="center">
     <h2 id="titulo">Interacciones</h2>
+
+<!--
+    <div id="draggable" class="caja" draggable="true">Arrastra esta caja sobre la otra</div>
+    <div id="droppable" class="caja">
+      <p>Suelta la caja aquí</p>
+    </div> -->
+
 
     <div id="caja-retry-ability"></div>
 
@@ -102,6 +132,7 @@
       Haz doble click aquí
     </div>
 
+
     <div id="hobbies" data-cy="hobbies">
       <div><input type="checkbox" id="hobby1" name="hobby" value="cine">Cine</div>
       <div><input type="checkbox" id="hobby2" name="hobby" value="musica">Música</div>
@@ -110,20 +141,24 @@
       <div><input type="checkbox" id="hobby5" name="hobby" value="baloncesto">Baloncesto</div>
     </div>
 
-    <select id="select-coches-electricos">
-      <option value="polestar-2">Polestar 2</option>
-      <option value="nio-et7">Nio eT7</option>
-      <option value="tesla-model-3">Tesla Model 3</option>
-      <option value="xpeng-p7">Xpeng P7</option>
-    </select>
+    <div>
+      <select id="select-coches-electricos">
+        <option value="polestar-2">Polestar 2</option>
+        <option value="nio-et7">Nio eT7</option>
+        <option value="tesla-model-3">Tesla Model 3</option>
+        <option value="xpeng-p7">Xpeng P7</option>
+      </select>
+    </div>
 
-    <select id="select-colores" multiple>
-      <option value="negro">Negro</option>
-      <option value="rojo">Rojo</option>
-      <option value="azul">Azul</option>
-      <option value="amarillo">Amarillo</option>
-      <option value="blanco">Blanco</option>
-    </select>
+    <div>
+      <select id="select-colores" multiple>
+        <option value="negro">Negro</option>
+        <option value="rojo">Rojo</option>
+        <option value="azul">Azul</option>
+        <option value="amarillo">Amarillo</option>
+        <option value="blanco">Blanco</option>
+      </select>
+    </div>
 
     <div id="js-popups">
       <button type="button" id="btn-alert">Mostrar un Alert</button>
@@ -157,6 +192,30 @@
         <input type="text" name="nombre" id="nombre">
       </div>
     </div>
+
+
+      <div>
+    <button type="button" id="btn-ubicacion">¿Dónde estoy?</button>
+    <p>Ubicación: <span id="ciudad"></span></p>
+  </div>
+
+  <script>
+    document.getElementById('btn-ubicacion').addEventListener('click', () => {
+      navigator.geolocation.getCurrentPosition(position => {
+      const { coords } = position;
+      const { longitude, latitude } = coords;
+      fetch(`http://localhost:8081/get-city?lat=${latitude}&lon=${longitude}`)
+        .then(resp => resp.json())
+        .then(({ciudad}) => {
+          console.log(ciudad)
+          document.getElementById('ciudad').innerText = ciudad;
+        })
+      })
+    })
+  </script>
+
+
+
 
   </div>
 
@@ -203,6 +262,49 @@
     event.target.className = event.target.className.includes('db-clicked') ? '' : 'db-clicked';
     })
   </script>
+
+
+  <!-- Script para el Drag and Drop -->
+  <!-- <script>
+    const draggable = document.getElementById('draggable')
+    const droppable = document.getElementById('droppable')
+
+    draggable.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', 'draggable')
+      draggable.classList.add('dragging')
+      droppable.classList.add('illuminate')
+    })
+
+    draggable.addEventListener('dragend', (event) => {
+      draggable.classList.remove('dragging')
+      droppable.classList.remove('illuminate')
+    })
+
+    droppable.addEventListener('dragover', (event) => {
+      event.preventDefault()
+      droppable.classList.add('fullIlluminate')
+    })
+
+    droppable.addEventListener('dragleave', () => {
+      droppable.classList.remove('fullIlluminate')
+    })
+
+    droppable.addEventListener('drop', (event) => {
+      event.preventDefault()
+      const id = event.dataTransfer.getData('text/plain')
+      if (id === 'draggable') {
+        droppable.style.position = 'relative'
+        draggable.style.position = 'absolute'
+
+        draggable.style.left = `${droppable.clientWidth - draggable.offsetWidth}px`
+        draggable.style.left = `${droppable.clientHeight - draggable.offsetHeight}px`
+
+        document.querySelector('#droppable > p').textContent = 'Dropped!'
+        droppable.appendChild(draggable)
+      }
+      droppable.classList.remove('fullIlluminate')
+    })
+  </script> -->
 
 </body>
 </html>

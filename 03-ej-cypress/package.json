@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npx http-server ./public",
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "start:server": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,9 @@
   "description": "",
   "devDependencies": {
     "cypress": "^15.6.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
   }
 }

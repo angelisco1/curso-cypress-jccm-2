@@ -24,6 +24,7 @@ describe('Interacciones con elementos web', () => {
   describe('Clicks, desplegables y checkboxes', () => {
     beforeEach(() => {
       cy.visit('http://127.0.0.1:8080/02-interacciones.html')
+      cy.viewport(1920, 1080)
     })
 
     it('Si introducimos el código correcto (6710) nos muestra en el display el mensaje "CODE OK"', () => {
@@ -120,7 +121,7 @@ describe('Interacciones con elementos web', () => {
         .should('have.length', 2)
     })
 
-    it.only('Al seleccionar la opción de XPeng se queda seleccionada, y si después seleccionamos la de Tesla, se cambia la selección', () => {
+    it('Al seleccionar la opción de XPeng se queda seleccionada, y si después seleccionamos la de Tesla, se cambia la selección', () => {
       cy.get('#select-coches-electricos')
         .select('xpeng-p7')
 
@@ -134,6 +135,24 @@ describe('Interacciones con elementos web', () => {
 
       cy.get('#select-coches-electricos option:selected')
         .should('have.value', 'tesla-model-3')
+    })
+
+    it.only('Al arrastrar la caja sobre la caja grande debería cambiar el texto a "Dropped!"', () => {
+
+      const dataTransferVacio = new DataTransfer()
+
+      cy.get('#draggable')
+        .trigger('dragstart', { dataTransfer: dataTransferVacio })
+
+      cy.get('#droppable')
+        .trigger('dragover', { dataTransfer: dataTransferVacio })
+        .trigger('drop', { dataTransfer: dataTransferVacio })
+
+      cy.get('#draggable')
+        .trigger('dragend', { dataTransfer: dataTransferVacio })
+
+      cy.get('#droppable > p')
+        .should('have.text', 'Dropped!')
     })
 
 
@@ -269,15 +288,6 @@ describe('Interacciones con elementos web', () => {
       // })
 
     })
-
-  })
-
-
-  describe('Drag and drop', () => {
-
-  })
-
-  describe('Popups nativos', () => {
 
   })
 
